@@ -1,21 +1,32 @@
 <!doctype html>
 <html>
-    <head><title>my app</title></head>
+    <head>
+        <title>my app</title>
+    </head>
+    <!-- Bind to our angular app defined below -->
     <body ng-app="myApp">
+        
+        <!-- This div is controlled by the controller we define below -->
         <div ng-controller="MyController">
+            <!-- Render a scope property -->
             {{myValue}}
         </div>
+        
         <!-- 
-            If using bower, these scripts will be relative to www/
-            otherwise, use CDN and don't worry about it.
+            .bowerrc tells bower to put all of it's components under the www/bower_components directory.
+            Since express serves everything in www statically and from the root of the request,
+            bower_components is handled the same way.
         -->
         <script src="bower_components/angular/angular.min.js"></script>
         
         <script>
+            // Create the angular application
             angular.module('myApp', ['ng'])
+            // Create the controller for the div above
             .controller('MyController', function ($scope, $http) {
+                // Make a HTTP GET request to our API endpoint
                 $http.get('/api/someJsonEndpoint').then(function(response) {
-                    // Success
+                    // Success, save the response value to the scope.
                     $scope.myValue = response.data.result;
                 });
             });
